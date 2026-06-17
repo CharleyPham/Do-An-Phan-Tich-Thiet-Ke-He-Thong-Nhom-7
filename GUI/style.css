@@ -1,0 +1,991 @@
+/* ============================================================
+   STYLE.CSS — Self Restaurant Kiosk
+   Tông màu: Đỏ & Trắng | Font: Sự kết hợp thanh lịch
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+
+/* --- BIẾN MÀU & THIẾT KẾ --- */
+:root {
+  --do:        #E8192C;
+  --do-dam:    #B5101E;
+  --do-nhat:   #FF4D5E;
+  --do-nen:    #FFF0F1;
+  --trang:     #FFFFFF;
+  --xam-nhe:   #F7F7F7;
+  --xam:       #6B7280;
+  --den:       #1A1A1A;
+  --vang:      #FFB800;
+
+  --radius:    16px;
+  --radius-sm: 10px;
+  --shadow:    0 4px 24px rgba(232,25,44,0.12);
+  --shadow-lg: 0 8px 40px rgba(232,25,44,0.18);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- RESET & BASE --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--xam-nhe);
+  color: var(--den);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* --- SCROLLBAR ĐẸP --- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--do-nhat); border-radius: 99px; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  background: linear-gradient(135deg, var(--do) 0%, var(--do-dam) 100%);
+  padding: 0 24px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(232,25,44,0.35);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+}
+
+.header-logo {
+  font-family: 'Baloo 2', cursive;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--trang);
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* 📌 THÊM ẢNH HEADER: 2 ảnh minh hoạ 2 bên logo */
+.header-img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  /* Placeholder khi chưa có ảnh */
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.header-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   LAYOUT CHÍNH (Menu page)
+   ============================================================ */
+.main-layout {
+  display: flex;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 120px;
+  background: var(--trang);
+  border-right: 1px solid rgba(232,25,44,0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  gap: 8px;
+  flex-shrink: 0;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.05);
+}
+
+.tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--xam);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 0;
+  position: relative;
+  transition: var(--transition);
+  border-left: 3px solid transparent;
+}
+
+.tab-btn .tab-icon {
+  font-size: 26px;
+  transition: var(--transition);
+}
+
+.tab-btn:hover {
+  background: var(--do-nen);
+  color: var(--do);
+}
+
+.tab-btn.active {
+  background: var(--do-nen);
+  color: var(--do);
+  border-left-color: var(--do);
+}
+
+.tab-btn.active .tab-icon {
+  transform: scale(1.15);
+}
+
+/* --- VÙNG NỘI DUNG --- */
+.content-area {
+  flex: 1;
+  padding: 24px 20px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.danh-muc-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--do);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- GRID MÓN ĂN --- */
+.mon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  animation: fadeInUp 0.4s ease both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- CARD MÓN --- */
+.mon-card {
+  background: var(--trang);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border: 2px solid transparent;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.mon-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--do-nhat);
+}
+
+.mon-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+/* 📌 THÊM ẢNH MÓN: thẻ img bên trong .mon-img */
+.mon-img {
+  width: 100%;
+  height: 130px;
+  background: linear-gradient(135deg, #FFE5E8 0%, #FFDDE0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mon-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.mon-card:hover .mon-img img {
+  transform: scale(1.08);
+}
+
+.mon-info {
+  padding: 12px;
+}
+
+.mon-ten {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--den);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.mon-gia {
+  font-family: 'Baloo 2', cursive;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--do);
+}
+
+/* --- NÚT GIỎ HÀNG (góc phải trên) --- */
+.btn-gio-hang {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: linear-gradient(135deg, var(--do) 0%, var(--do-dam) 100%);
+  color: var(--trang);
+  border: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  z-index: 50;
+}
+
+.btn-gio-hang:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 40px rgba(232,25,44,0.35);
+}
+
+.btn-gio-hang:active {
+  transform: scale(0.96);
+}
+
+.cart-badge {
+  background: var(--vang);
+  color: var(--den);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   POPUP OVERLAY
+   ============================================================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* --- POPUP CARD --- */
+.popup-card {
+  background: var(--trang);
+  border-radius: 24px;
+  width: 360px;
+  max-width: 92vw;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+  transform: scale(0.88) translateY(30px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.overlay.show .popup-card {
+  transform: scale(1) translateY(0);
+}
+
+/* 📌 THÊM ẢNH POPUP: thẻ img bên trong .popup-img */
+.popup-img {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #FFE5E8 0%, #FFDDE0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  overflow: hidden;
+}
+
+.popup-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popup-body {
+  padding: 20px;
+}
+
+.popup-ten {
+  font-family: 'Baloo 2', cursive;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--den);
+  margin-bottom: 4px;
+}
+
+.popup-mota {
+  font-size: 13px;
+  color: var(--xam);
+  margin-bottom: 16px;
+}
+
+/* Chọn size nước */
+.size-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.size-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border: 2px solid #E5E7EB;
+  border-radius: var(--radius-sm);
+  background: var(--trang);
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--xam);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.size-btn:hover { border-color: var(--do-nhat); color: var(--do); }
+
+.size-btn.active {
+  border-color: var(--do);
+  background: var(--do-nen);
+  color: var(--do);
+}
+
+.size-gia {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 3px;
+  opacity: 0.8;
+}
+
+/* Số lượng */
+.sl-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.popup-gia {
+  font-family: 'Baloo 2', cursive;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--do);
+}
+
+.sl-control {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid #E5E7EB;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.sl-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--do);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.sl-btn:hover { background: var(--do-nen); }
+.sl-btn:active { transform: scale(0.88); }
+
+.sl-num {
+  min-width: 36px;
+  text-align: center;
+  font-family: 'Baloo 2', cursive;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Nút popup */
+.popup-footer {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px 20px;
+}
+
+.btn-thoat {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #E5E7EB;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--xam);
+  transition: var(--transition);
+}
+
+.btn-thoat:hover { border-color: var(--do); color: var(--do); background: var(--do-nen); }
+
+.btn-them-gio {
+  flex: 2;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--do) 0%, var(--do-dam) 100%);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--trang);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-them-gio:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(232,25,44,0.35); }
+.btn-them-gio:active { transform: scale(0.97); }
+
+/* ============================================================
+   TRANG GIỎ HÀNG (cart.html)
+   ============================================================ */
+.gio-page {
+  min-height: 100vh;
+  background: var(--xam-nhe);
+}
+
+.gio-header {
+  background: linear-gradient(135deg, var(--do) 0%, var(--do-dam) 100%);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 20px rgba(232,25,44,0.3);
+}
+
+.gio-header-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--trang);
+}
+
+.gio-body {
+  padding: 20px 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* --- BẢNG GIỎ HÀNG --- */
+.cart-table {
+  background: var(--trang);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.cart-table-head {
+  display: grid;
+  grid-template-columns: 40px 1fr 80px 70px 90px 80px 44px;
+  background: var(--do);
+  padding: 12px 16px;
+  gap: 8px;
+}
+
+.cart-table-head span {
+  font-family: 'Baloo 2', cursive;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--trang);
+  text-align: center;
+}
+
+.cart-table-head span:nth-child(2) { text-align: left; }
+
+.cart-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 80px 70px 90px 80px 44px;
+  padding: 14px 16px;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid #F3F4F6;
+  transition: background 0.2s;
+  animation: fadeInUp 0.3s ease both;
+}
+
+.cart-row:hover { background: var(--do-nen); }
+.cart-row:last-child { border-bottom: none; }
+
+.cart-row span {
+  text-align: center;
+  font-size: 14px;
+}
+
+.cart-stt {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  color: var(--do);
+  font-size: 16px !important;
+}
+
+.cart-mon-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left !important;
+}
+
+/* 📌 THÊM ẢNH GIỎ HÀNG: thẻ img bên trong .cart-mon-img */
+.cart-mon-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--do-nen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cart-mon-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-mon-ten {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--den);
+}
+
+.cart-gia {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  color: var(--do);
+  font-size: 15px !important;
+}
+
+.btn-xoa {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #FEE2E2;
+  color: var(--do);
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  margin: auto;
+}
+
+.btn-xoa:hover { background: var(--do); color: var(--trang); transform: scale(1.1); }
+
+/* --- TRỐNG GIỎ HÀNG --- */
+.gio-trong {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--xam);
+}
+
+.gio-trong .icon { font-size: 64px; margin-bottom: 12px; opacity: 0.4; }
+.gio-trong p { font-size: 16px; }
+
+/* --- FOOTER GIỎ HÀNG --- */
+.gio-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--trang);
+  border-top: 2px solid #F3F4F6;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tong-tien-block {
+  text-align: right;
+}
+
+.tong-tien-label {
+  font-size: 12px;
+  color: var(--xam);
+  font-weight: 600;
+}
+
+.tong-tien-so {
+  font-family: 'Baloo 2', cursive;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--do);
+}
+
+.btn-quay-lai {
+  padding: 12px 20px;
+  border: 2px solid #E5E7EB;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--xam);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-quay-lai:hover { border-color: var(--do); color: var(--do); background: var(--do-nen); }
+
+.btn-thanh-toan {
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--do) 0%, var(--do-dam) 100%);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--trang);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(232,25,44,0.3);
+}
+
+.btn-thanh-toan:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,25,44,0.35); }
+.btn-thanh-toan:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ============================================================
+   POPUP XÓA MON
+   ============================================================ */
+.popup-xoa .popup-card {
+  padding: 28px;
+  text-align: center;
+  width: 320px;
+}
+
+.popup-xoa-icon { font-size: 48px; margin-bottom: 12px; }
+
+.popup-xoa-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--den);
+  margin-bottom: 8px;
+}
+
+.popup-xoa-sub {
+  font-size: 14px;
+  color: var(--xam);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.popup-xoa-footer {
+  display: flex;
+  gap: 10px;
+}
+
+/* ============================================================
+   TRANG THANH TOÁN (payment.html)
+   ============================================================ */
+.payment-page {
+  min-height: 100vh;
+  background: var(--xam-nhe);
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.payment-card {
+  background: var(--trang);
+  border-radius: 28px;
+  padding: 40px 36px;
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.payment-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--den);
+  margin-bottom: 6px;
+}
+
+.payment-so-tien {
+  font-family: 'Baloo 2', cursive;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--do);
+  margin-bottom: 24px;
+}
+
+/* 📌 THÊM MÃ QR: thẻ img bên trong .qr-box */
+.qr-box {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 24px;
+  border: 3px solid var(--do-nen);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--do-nen);
+  font-size: 80px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animation quét QR */
+.qr-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--do), transparent);
+  animation: qrScan 2s ease-in-out infinite;
+}
+
+@keyframes qrScan {
+  0%   { top: 0; opacity: 1; }
+  50%  { top: calc(100% - 3px); opacity: 1; }
+  100% { top: 0; opacity: 0.3; }
+}
+
+.qr-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.payment-hint {
+  font-size: 13px;
+  color: var(--xam);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.payment-btns {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-gia-lap {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-thanh-cong {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  color: white;
+}
+
+.btn-thanh-cong:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
+
+.btn-that-bai {
+  background: #FEE2E2;
+  color: var(--do);
+}
+
+.btn-that-bai:hover { background: var(--do); color: white; transform: translateY(-2px); }
+
+/* ============================================================
+   POPUP KẾT QUẢ THANH TOÁN
+   ============================================================ */
+.popup-result .popup-card {
+  padding: 36px 28px;
+  text-align: center;
+  width: 320px;
+}
+
+.result-icon { font-size: 64px; margin-bottom: 16px; animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+
+@keyframes popIn {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+.result-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.result-sub {
+  font-size: 14px;
+  color: var(--xam);
+  margin-bottom: 12px;
+}
+
+.result-ma-don {
+  font-family: 'Baloo 2', cursive;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--do);
+  background: var(--do-nen);
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: inline-block;
+}
+
+/* ============================================================
+   TOAST THÔNG BÁO
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  background: var(--den);
+  color: var(--trang);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 999;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ============================================================
+   EMPTY STATE & LOADING
+   ============================================================ */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 8px;
+}
+
+.loading-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--do);
+  animation: loadingBounce 0.8s ease infinite;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.15s; }
+.loading-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes loadingBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(-10px); opacity: 1; }
+}
+
+/* ============================================================
+   RESPONSIVE (cho tablet/desktop)
+   ============================================================ */
+@media (min-width: 768px) {
+  .mon-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .sidebar { width: 80px; }
+  .tab-btn { font-size: 11px; }
+  .mon-grid { grid-template-columns: repeat(2, 1fr); }
+  .cart-table-head,
+  .cart-row { grid-template-columns: 32px 1fr 60px 50px 70px 60px 36px; }
+}

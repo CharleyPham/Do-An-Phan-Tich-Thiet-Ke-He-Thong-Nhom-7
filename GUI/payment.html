@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ăn Cùng An — Thanh Toán</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="payment-page">
+    <!-- HEADER -->
+    <header class="gio-header">
+      <span style="font-size: 28px">💳</span>
+      <h1 class="gio-header-title">Thanh Toán</h1>
+    </header>
+
+    <!-- BODY -->
+    <div class="payment-body">
+      <div class="payment-card">
+        <div class="payment-title">Quét mã QR để thanh toán</div>
+        <div class="payment-so-tien" id="payment-so-tien">0đ</div>
+
+        <div class="qr-box">
+          <div class="qr-scan-line"></div>
+          <span style="font-size: 80px">📱</span>
+        </div>
+
+        <p class="payment-hint">
+          📌 Mở ứng dụng ngân hàng và quét mã QR để thanh toán.<br />
+          Sau khi chuyển tiền, nhấn <strong>"Thành công"</strong> để xác nhận.
+        </p>
+
+        <div class="payment-btns">
+          <button class="btn-gia-lap btn-that-bai" onclick="giaLapThatBai()">
+            ✕ Thất bại
+          </button>
+          <button
+            class="btn-gia-lap btn-thanh-cong"
+            onclick="giaLapThanhCong()"
+          >
+            ✓ Thành công
+          </button>
+        </div>
+
+        <p style="margin-top: 16px; font-size: 11px; color: #9ca3af">
+          * Nút giả lập — Dùng cho demo hệ thống
+        </p>
+      </div>
+    </div>
+
+    <!-- ===== POPUP THÀNH CÔNG ===== -->
+    <div class="overlay popup-result" id="overlay-thanh-cong">
+      <div class="popup-card">
+        <div style="padding: 36px 28px; text-align: center">
+          <div class="result-icon">🎉</div>
+          <div class="result-title" style="color: #16a34a">
+            Thanh toán thành công!
+          </div>
+          <div class="result-sub">Cảm ơn bạn đã đặt hàng</div>
+          <div class="result-ma-don" id="result-ma-don">#ORD-...</div>
+          <p style="font-size: 13px; color: #6b7280; margin-bottom: 24px">
+            Hóa đơn đã được lưu. Vui lòng chờ số thứ tự được gọi.
+          </p>
+          <button
+            class="btn-them-gio"
+            style="
+              width: 100%;
+              background: linear-gradient(135deg, #22c55e, #16a34a);
+            "
+            onclick="veMenuSauThanhToan()"
+          >
+            🏠 Về trang chủ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== POPUP THẤT BẠI ===== -->
+    <div class="overlay popup-result" id="overlay-that-bai">
+      <div class="popup-card">
+        <div style="padding: 36px 28px; text-align: center">
+          <div class="result-icon">❌</div>
+          <div class="result-title" style="color: #e8192c">
+            Thanh toán thất bại!
+          </div>
+          <div class="result-sub" style="margin-bottom: 24px">
+            Giao dịch không thành công.<br />
+            Vui lòng thử lại hoặc liên hệ nhân viên hỗ trợ.
+          </div>
+          <div style="display: flex; gap: 10px">
+            <button
+              class="btn-thoat"
+              onclick="dongPopupThatBai()"
+              style="flex: 1"
+            >
+              ← Thử lại
+            </button>
+            <button
+              class="btn-them-gio"
+              onclick="veMenu()"
+              style="
+                flex: 1;
+                background: linear-gradient(135deg, #e8192c, #b5101e);
+              "
+            >
+              🏠 Về menu
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="data.js"></script>
+    <script src="payment.js"></script>
+  </body>
+</html>

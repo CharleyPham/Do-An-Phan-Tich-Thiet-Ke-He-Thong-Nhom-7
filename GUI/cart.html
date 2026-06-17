@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ăn Cùng An — Giỏ Hàng</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="gio-page">
+    <header class="gio-header">
+      <span style="font-size: 28px">🛒</span>
+      <h1 class="gio-header-title">Giỏ của bạn</h1>
+    </header>
+
+    <div class="gio-body">
+      <div class="cart-table" id="cart-table">
+        <div class="cart-table-head">
+          <span>STT</span>
+          <span>Tên món</span>
+          <span>Size</span>
+          <span>SL</span>
+          <span>Đơn giá</span>
+          <span>T.Tiền</span>
+          <span>Xóa</span>
+        </div>
+
+        <div id="cart-list"></div>
+      </div>
+
+      <div class="gio-trong" id="gio-trong" style="display: none">
+        <div class="icon">🛒</div>
+        <p>Giỏ hàng của bạn đang trống</p>
+        <p style="margin-top: 6px; font-size: 14px; opacity: 0.7">
+          Hãy thêm món ăn vào giỏ nhé!
+        </p>
+      </div>
+    </div>
+
+    <div class="gio-footer">
+      <button
+        class="btn-quay-lai"
+        onclick="window.location.href = 'index.html'"
+      >
+        ← Thêm món
+      </button>
+
+      <div style="display: flex; align-items: center; gap: 16px">
+        <div class="tong-tien-block">
+          <div class="tong-tien-label">Tổng thanh toán</div>
+          <div class="tong-tien-so" id="tong-tien">0đ</div>
+        </div>
+        <button
+          class="btn-thanh-toan"
+          id="btn-thanh-toan"
+          onclick="moPopupThanhToan()"
+        >
+          💳 Thanh toán
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="overlay popup-xoa"
+      id="overlay-xoa"
+      onclick="dongPopupXoa(event)"
+    >
+      <div class="popup-card">
+        <div style="padding: 28px; text-align: center">
+          <div class="popup-xoa-icon">🗑️</div>
+          <div class="popup-xoa-title">Xóa khỏi giỏ?</div>
+          <div class="popup-xoa-sub" id="xoa-ten-mon">
+            Bạn có chắc muốn xóa món này không?
+          </div>
+          <div class="popup-xoa-footer">
+            <button class="btn-thoat" onclick="dongPopupXoa()">✕ Hủy</button>
+            <button
+              class="btn-them-gio"
+              onclick="xacNhanXoa()"
+              style="background: linear-gradient(135deg, #e8192c, #b5101e)"
+            >
+              🗑️ Xác nhận xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="overlay"
+      id="overlay-xac-nhan-tt"
+      onclick="dongPopupThanhToan(event)"
+    >
+      <div class="popup-card" style="width: 400px">
+        <div
+          style="
+            height: 6px;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+          "
+        ></div>
+
+        <div style="padding: 32px 24px; text-align: center">
+          <div class="confirm-icon-box">
+            <img
+              src="https://img.icons8.com/fluency/96/bank-card-back-side.png"
+              style="width: 80px; height: 80px"
+            />
+          </div>
+
+          <h2
+            class="popup-xoa-title"
+            style="font-size: 22px; margin-top: 16px; color: #1a1a1a"
+          >
+            Xác nhận đơn hàng
+          </h2>
+          <p class="popup-xoa-sub" style="margin-bottom: 20px">
+            Bạn đã sẵn sàng để thanh toán cho đơn hàng này chưa?
+          </p>
+
+          <div
+            style="
+              background: #f9fafb;
+              border-radius: 16px;
+              padding: 16px;
+              margin-bottom: 24px;
+              border: 1px dashed #d1d5db;
+            "
+          >
+            <span
+              style="
+                display: block;
+                font-size: 12px;
+                color: #6b7280;
+                text-transform: uppercase;
+                font-weight: 700;
+                margin-bottom: 4px;
+                letter-spacing: 0.5px;
+              "
+              >Tổng số tiền thanh toán</span
+            >
+            <span
+              id="confirm-total-amount"
+              style="
+                font-family: &quot;Baloo 2&quot;, cursive;
+                font-size: 32px;
+                font-weight: 800;
+                color: #16a34a;
+              "
+              >0đ</span
+            >
+          </div>
+
+          <div class="popup-xoa-footer" style="display: flex; gap: 12px">
+            <button
+              class="btn-thoat"
+              onclick="dongPopupThanhToan()"
+              style="flex: 1; border-radius: 12px"
+            >
+              Quay lại
+            </button>
+            <button
+              class="btn-them-gio"
+              onclick="tienHanhThanhToan()"
+              style="
+                flex: 1.5;
+                background: linear-gradient(135deg, #22c55e, #16a34a);
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+              "
+            >
+              Thanh toán ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="cart.js"></script>
+  </body>
+</html>
