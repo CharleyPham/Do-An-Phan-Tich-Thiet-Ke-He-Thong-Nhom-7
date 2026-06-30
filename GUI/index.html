@@ -1,147 +1,135 @@
 <!doctype html>
 <html lang="vi">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ăn Cùng An — Menu</title>
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="header-img">
+</head>
+<body>
+<header class="header">
+    <div class="header-img">
         <img
-          src="https://img.pikbest.com/png-images/20240920/fried-chicken-with-bucket-cartoon-vector-icon-illustration_10868284.png!sw800"
-          alt="Gà Rán"
+                src="https://img.pikbest.com/png-images/20240920/fried-chicken-with-bucket-cartoon-vector-icon-illustration_10868284.png!sw800"
+                alt="Gà Rán"
         />
-      </div>
-
-      <div class="header-brand">
-        <span class="header-logo">Kisok</span>
-      </div>
-
-      <div class="header-img">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/1046/1046786.png"
-          alt="Khoai Tây"
-        />
-      </div>
-    </header>
-
-    <div class="main-layout">
-      <nav class="sidebar">
-        <button
-          class="tab-btn active"
-          data-tab="ga"
-          onclick="chuyenTab('ga', this)"
-        >
-          <span class="tab-icon"
-            ><img
-              src="https://media.istockphoto.com/id/1337864243/vi/vec-to/g%C3%A0-r%C3%A1n-cay-trong-x%C3%B4-m%C3%A0u-%C4%91%E1%BB%8F-thi%E1%BA%BFt-k%E1%BA%BF-c%C3%B4-l%E1%BA%ADp-v%C3%A0-ph%E1%BA%B3ng-tr%C3%AAn-n%E1%BB%81n-m%C3%A0u-v%C3%A0ng.jpg?s=612x612&w=0&k=20&c=SONDMhOuOfTaPuoMajRoY_aQjUjiazjO7i0e0UxBEDs="
-              style="width: 30px; height: 30px"
-          /></span>
-          Gà
-        </button>
-        <button
-          class="tab-btn"
-          data-tab="nuoc"
-          onclick="chuyenTab('nuoc', this)"
-        >
-          <span class="tab-icon"
-            ><img
-              src="https://cdn-icons-png.flaticon.com/512/3081/3081162.png"
-              style="width: 30px; height: 30px"
-          /></span>
-          Nước
-        </button>
-        <button
-          class="tab-btn"
-          data-tab="combo"
-          onclick="chuyenTab('combo', this)"
-        >
-          <span class="tab-icon"
-            ><img
-              src="https://cdn-icons-png.flaticon.com/512/3565/3565401.png"
-              style="width: 30px; height: 30px"
-          /></span>
-          Combo
-        </button>
-      </nav>
-
-      <div class="content-area">
-        <div class="danh-muc-title">
-          <span id="title-icon"
-            ><img
-              src="https://cdn-icons-png.flaticon.com/512/1841/1841554.png"
-              style="width: 26px; height: 26px; object-fit: contain"
-          /></span>
-          <span id="title-text">Gà</span>
-        </div>
-        <div class="mon-grid" id="mon-grid"></div>
-      </div>
     </div>
 
-    <button class="btn-gio-hang" onclick="window.location.href = 'cart.html'">
-      🛒 Giỏ hàng
-      <span class="cart-badge" id="cart-badge">0</span>
-    </button>
+    <div class="header-brand">
+        <span class="header-logo">Kiosk</span>
+    </div>
 
-    <div class="overlay" id="overlay" onclick="dongPopup(event)">
-      <div class="popup-card" id="popup-card">
+    <div class="header-img">
+        <img
+                src="https://cdn-icons-png.flaticon.com/512/1046/1046786.png"
+                alt="Khoai Tây"
+        />
+    </div>
+</header>
+
+<div class="main-layout">
+    <nav class="sidebar">
+        <button class="tab-btn active" data-tab="ga" onclick="chuyenTab('ga', this)">
+          <span class="tab-icon">
+            <img src="https://media.istockphoto.com/id/1337864243/vi/vec-to/g%C3%A0-r%C3%A1n-cay-trong-x%C3%B4-m%C3%A0u-%C4%91%E1%BB%8F-thi%E1%BA%BFt-k%E1%BA%BF-c%C3%B4-l%E1%BA%ADp-v%C3%A0-ph%E1%BA%B3ng-tr%C3%AAn-n%E1%BB%81n-m%C3%A0u-v%C3%A0ng.jpg?s=612x612&w=0&k=20&c=SONDMhOuOfTaPuoMajRoY_aQjUjiazjO7i0e0UxBEDs=" style="width: 30px; height: 30px" />
+          </span>
+            Gà Rán
+        </button>
+
+        <button class="tab-btn" data-tab="burger" onclick="chuyenTab('burger', this)">
+          <span class="tab-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" style="width: 30px; height: 30px" />
+          </span>
+            Burger
+        </button>
+
+        <button class="tab-btn" data-tab="kem" onclick="chuyenTab('kem', this)">
+          <span class="tab-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046786.png" style="width: 30px; height: 30px" />
+          </span>
+            Ăn Kèm
+        </button>
+
+        <button class="tab-btn" data-tab="nuoc" onclick="chuyenTab('nuoc', this)">
+          <span class="tab-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081162.png" style="width: 30px; height: 30px" />
+          </span>
+            Nước
+        </button>
+
+        <button class="tab-btn" data-tab="combo" onclick="chuyenTab('combo', this)">
+          <span class="tab-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/3565/3565401.png" style="width: 30px; height: 30px" />
+          </span>
+            Combo
+        </button>
+    </nav>
+
+    <div class="content-area">
+        <div class="danh-muc-title">
+          <span id="title-icon"
+          ><img
+                  src="https://img.icons8.com/fluency/96/poultry-leg.png"
+                  style="width: 26px; height: 26px; object-fit: contain"
+          /></span>
+            <span id="title-text">Gà Rán</span>
+        </div>
+        <div class="mon-grid" id="mon-grid"></div>
+    </div>
+</div>
+
+<button class="btn-gio-hang" onclick="window.location.href = 'cart.html'">
+    🛒 Giỏ hàng
+    <span class="cart-badge" id="cart-badge">0</span>
+</button>
+
+<div class="overlay" id="overlay" onclick="dongPopup(event)">
+    <div class="popup-card" id="popup-card">
         <div class="popup-img" id="popup-img"></div>
 
         <div class="popup-body">
-          <div class="popup-ten" id="popup-ten">Tên món</div>
-          <div class="popup-mota" id="popup-mota">Mô tả món ăn</div>
+            <div class="popup-ten" id="popup-ten">Tên món</div>
+            <div class="popup-mota" id="popup-mota">Mô tả món ăn</div>
 
-          <div class="size-group" id="size-group" style="display: none">
-            <button
-              class="size-btn active"
-              data-size="be"
-              onclick="chonSize('be', this)"
-            >
-              Bé
-              <div class="size-gia" id="gia-be"></div>
-            </button>
-            <button
-              class="size-btn"
-              data-size="vua"
-              onclick="chonSize('vua', this)"
-            >
-              Vừa
-              <div class="size-gia" id="gia-vua"></div>
-            </button>
-            <button
-              class="size-btn"
-              data-size="lon"
-              onclick="chonSize('lon', this)"
-            >
-              Lớn
-              <div class="size-gia" id="gia-lon"></div>
-            </button>
-          </div>
+            <div id="combo-slots-container" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;"></div>
 
-          <div class="sl-row">
-            <div class="popup-gia" id="popup-gia">50.000đ</div>
-            <div class="sl-control">
-              <button class="sl-btn" onclick="thayDoiSL(-1)">−</button>
-              <span class="sl-num" id="sl-num">1</span>
-              <button class="sl-btn" onclick="thayDoiSL(1)">+</button>
+            <div class="size-group" id="size-group" style="display: none">
+                <button class="size-btn active" data-size="be" onclick="chonSize('be', this)">
+                    Bé
+                    <div class="size-gia" id="gia-be"></div>
+                </button>
+                <button class="size-btn" data-size="vua" onclick="chonSize('vua', this)">
+                    Vừa
+                    <div class="size-gia" id="gia-vua"></div>
+                </button>
+                <button class="size-btn" data-size="lon" onclick="chonSize('lon', this)">
+                    Lớn
+                    <div class="size-gia" id="gia-lon"></div>
+                </button>
             </div>
-          </div>
+
+            <div class="sl-row">
+                <div class="popup-gia" id="popup-gia">50.000đ</div>
+                <div class="sl-control">
+                    <button class="sl-btn" onclick="thayDoiSL(-1)">−</button>
+                    <span class="sl-num" id="sl-num">1</span>
+                    <button class="sl-btn" onclick="thayDoiSL(1)">+</button>
+                </div>
+            </div>
         </div>
 
         <div class="popup-footer">
-          <button class="btn-thoat" onclick="dongPopup()">✕ Thoát</button>
-          <button class="btn-them-gio" onclick="themVaGio()">
-            🛒 Thêm vào giỏ
-          </button>
+            <button class="btn-thoat" onclick="dongPopup()">✕ Thoát</button>
+            <button class="btn-them-gio" onclick="themVaGio()">
+                🛒 Thêm vào giỏ
+            </button>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
 
-    <script src="data.js"></script>
-    <script src="menu.js"></script>
-  </body>
+<script src="data.js"></script>
+<script src="menu.js"></script>
+</body>
 </html>

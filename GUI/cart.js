@@ -1,5 +1,5 @@
 // ============================================================
-//  CART.JS — Logic trang giỏ hàng (Bản chống lỗi dữ liệu)
+//  CART.JS — Logic trang giỏ hàng (Bản đọc trực tiếp LocalStorage)
 // ============================================================
 
 const defaultImages = {
@@ -14,54 +14,68 @@ let indexDangXoa = -1;
 //  RENDER GIỎ HÀNG
 // ============================================================
 function renderGio() {
-  const items = Cart.getAll();
-  const list  = document.getElementById("cart-list");
+  // ĐỌC TRỰC TIẾP: Không dùng qua đối tượng Cart ẩn nữa nhằm đồng bộ tuyệt đối với menu.js
+  const items = JSON.parse(localStorage.getItem("gioHang")) || [];
+  
+  const list   = document.getElementById("cart-list");
   const trong = document.getElementById("gio-trong");
   const table = document.getElementById("cart-table");
   const btnTT = document.getElementById("btn-thanh-toan");
 
   list.innerHTML = "";
 
-  // BẢO VỆ DỮ LIỆU: Lọc ra các item hợp lệ, bỏ qua các item cũ bị hỏng (thiếu giá)
-  const validItems = items.filter(item => item && item.gia !== undefined && item.gia !== null);
+  // BẢO VỆ DỮ LIỆU: Kiểm tra thuộc tính giaDonVi đồng bộ với menu.js
+  const validItems = items.filter(item => item && item.giaDonVi !== undefined && item.giaDonVi !== null);
 
-  // Nếu lọc xong mà không còn item nào hợp lệ (hoặc giỏ thực sự trống)
   if (validItems.length === 0) {
     table.style.display = "none";
     trong.style.display = "block";
-    btnTT.disabled = true;
+    if (btnTT) btnTT.disabled = true;
     document.getElementById("tong-tien").textContent = "0đ";
     
-    // Nếu có data lỗi trong bộ nhớ, tự động dọn dẹp luôn
-    if (items.length > 0) Cart.clear();
+    if (items.length > 0) localStorage.removeItem("gioHang");
     return;
   }
 
-  table.style.display = "block";
-  trong.style.display = "none";
-  btnTT.disabled = false;
+  if (table) table.style.display = "block";
+  if (trong) trong.style.display = "none";
+  if (btnTT) btnTT.disabled = false;
 
   validItems.forEach((item, idx) => {
     const row = document.createElement("div");
     row.className = "cart-row";
     row.style.animationDelay = `${idx * 0.06}s`;
 
-    const sizeLabel = { be: "Bé", vua: "Vừa", lon: "Lớn" };
-    const sizeText  = item.size ? sizeLabel[item.size] : "—";
+    const sizeLabel = { BE: "Bé", VUA: "Vừa", LON: "Lớn" };
+    let sizeText = "—";
+    let subInfoHTML = ""; 
+
+    if (item.tuyChonCombo && item.tuyChonCombo.length > 0) {
+      sizeText = "Combo";
+      const chuoiTenMonCuaCombo = item.tuyChonCombo.map(opt => opt.tenMonHienThi).join(" + ");
+      subInfoHTML = `<div style="font-size: 12px; color: #E8192C; font-weight: 500; margin-top: 4px; line-height: 1.4;">
+                       🎁 Đã chọn: ${chuoiTenMonCuaCombo}
+                     </div>`;
+    } else if (item.monKem && item.monKem.length > 0) {
+      sizeText = "Combo";
+      subInfoHTML = `<div style="font-size: 12px; color: #E8192C; font-weight: 500; margin-top: 4px; line-height: 1.4;">
+                       🎁 Đã chọn: ${item.monKem.join(" + ")}
+                     </div>`;
+    } else if (item.maSize) {
+      sizeText = sizeLabel[item.maSize] || "Vừa";
+    }
     
-    // Đảm bảo không bị lỗi toán học nếu thiếu dữ liệu
-    const gia = item.gia || 0;
+    const gia = item.giaDonVi || 0;
     const soLuong = item.soLuong || 1;
     const thanhTien = gia * soLuong;
 
-    // Xử lý ảnh an toàn
-    const loai = item.loai || 'ga';
+    const loai = item.isCombo ? 'combo' : (item.maSize ? 'ga' : 'nuoc');
     const fallbackImg = defaultImages[loai] || defaultImages.ga;
     const imgSrc = item.img ? item.img : fallbackImg;
 
     const imgHTML = `
       <div class="cart-mon-img">
-         <img src="${imgSrc}" alt="${item.ten || 'Món'}" onerror="this.onerror=null; this.src='${fallbackImg}'" style="width: 100%; height: 100%; object-fit: cover;">
+         <img src="${imgSrc}" alt="${item.tenSanPham || 'Món'}" onerror="this.onerror=null; this.src='${fallbackImg}'" style="width: 100%; height: 100%; object-fit: cover;">
       </div>`;
 
     row.innerHTML = `
@@ -69,10 +83,13 @@ function renderGio() {
 
       <span class="cart-mon-info">
         ${imgHTML}
-        <span class="cart-mon-ten">${item.ten || 'Món ăn'}</span>
+        <span class="cart-mon-ten">
+            ${item.tenSanPham || 'Món ăn'}
+            ${subInfoHTML}
+        </span>
       </span>
 
-      <span style="font-size:13px; color:#6B7280;">${sizeText}</span>
+      <span style="font-size:13px; color:#6B7280; font-weight: 500;">${sizeText}</span>
       <span style="font-weight:700;">${soLuong}</span>
       <span class="cart-gia">${formatTien(gia)}</span>
       <span class="cart-gia">${formatTien(thanhTien)}</span>
@@ -85,8 +102,7 @@ function renderGio() {
     list.appendChild(row);
   });
 
-  // Cập nhật tổng tiền an toàn
-  const tongTien = validItems.reduce((sum, i) => sum + (i.gia || 0) * (i.soLuong || 1), 0);
+  const tongTien = validItems.reduce((sum, i) => sum + (i.giaDonVi || 0) * (i.soLuong || 1), 0);
   document.getElementById("tong-tien").textContent = formatTien(tongTien);
 }
 
@@ -95,10 +111,11 @@ function renderGio() {
 // ============================================================
 function moPopupXoa(idx) {
   indexDangXoa = idx;
-  const item = Cart.getAll()[idx];
-  if(!item) return; // Bảo vệ nếu không tìm thấy món
+  const items = JSON.parse(localStorage.getItem("gioHang")) || [];
+  const item = items[idx];
+  if(!item) return; 
   document.getElementById("xoa-ten-mon").textContent =
-    `Bạn có muốn xóa "${item.ten || 'món này'}" khỏi giỏ hàng không?`;
+    `Bạn có muốn xóa "${item.tenSanPham || 'món này'}" khỏi giỏ hàng không?`;
   document.getElementById("overlay-xoa").classList.add("show");
 }
 
@@ -107,16 +124,26 @@ function dongPopupXoa(e) {
   _dongPopupXoa();
 }
 
+// Hàm bổ trợ đóng popup xóa
 function _dongPopupXoa() {
-  document.getElementById("overlay-xoa").classList.remove("show");
+  const popup = document.getElementById("overlay-xoa");
+  if (popup) popup.classList.remove("show");
   indexDangXoa = -1;
 }
 
 function xacNhanXoa() {
   if (indexDangXoa < 0) return;
-  Cart.remove(indexDangXoa);
+  
+  let items = JSON.parse(localStorage.getItem("gioHang")) || [];
+  items.splice(indexDangXoa, 1); // Xóa phần tử tại vị trí index
+  
+  if (items.length === 0) {
+    localStorage.removeItem("gioHang");
+  } else {
+    localStorage.setItem("gioHang", JSON.stringify(items));
+  }
+  
   _dongPopupXoa();
-
   setTimeout(renderGio, 80);
 }
 
@@ -124,7 +151,8 @@ function xacNhanXoa() {
 //  POPUP XÁC NHẬN THANH TOÁN
 // ============================================================
 function moPopupThanhToan() {
-  const tongTien = Cart.getAll().reduce((sum, i) => sum + (i.gia || 0) * (i.soLuong || 1), 0);
+  const items = JSON.parse(localStorage.getItem("gioHang")) || [];
+  const tongTien = items.reduce((sum, i) => sum + (i.giaDonVi || 0) * (i.soLuong || 1), 0);
   const amountEl = document.getElementById("confirm-total-amount");
   if (amountEl) {
     amountEl.textContent = formatTien(tongTien);
@@ -138,7 +166,8 @@ function dongPopupThanhToan(e) {
 }
 
 function _dongPopupThanhToan() {
-  document.getElementById("overlay-xac-nhan-tt").classList.remove("show");
+  const popup = document.getElementById("overlay-xac-nhan-tt");
+  if (popup) popup.classList.remove("show");
 }
 
 function tienHanhThanhToan() {
@@ -148,6 +177,7 @@ function tienHanhThanhToan() {
     btn.style.opacity = "0.7";
     btn.disabled = true;
   }
+  
   setTimeout(() => {
     window.location.href = "payment.html";
   }, 400);

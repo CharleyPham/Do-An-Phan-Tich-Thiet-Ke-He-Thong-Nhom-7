@@ -1,28 +1,32 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ChiTietHoaDon")
-@IdClass(ChiTietHoaDonId.class) // Gọi class bó khóa vào đây
 public class ChiTietHoaDon {
 
     @Id
-    @Column(name = "maHoaDon", length = 50)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id; // ĐÂY LÀ @Id DUY NHẤT
+
+    @Column(name = "maHoaDon", length = 50) // Đã xóa bỏ @Id cũ ở đây
     private String maHoaDon;
 
-    @Id
-    @Column(name = "maGia", length = 50)
+    @Column(name = "maGia", length = 50) // Đã xóa bỏ @Id cũ ở đây
     private String maGia;
 
     @Column(name = "soLuong")
     private Integer soLuong;
 
+    @ManyToOne
+    @JoinColumn(name = "maHoaDon", referencedColumnName = "maHoaDon", insertable = false, updatable = false)
+    private HoaDon hoaDon;
+
     // --- GETTER & SETTER ---
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
     public String getMaHoaDon() { return maHoaDon; }
     public void setMaHoaDon(String maHoaDon) { this.maHoaDon = maHoaDon; }
 
@@ -31,4 +35,7 @@ public class ChiTietHoaDon {
 
     public Integer getSoLuong() { return soLuong; }
     public void setSoLuong(Integer soLuong) { this.soLuong = soLuong; }
+
+    public HoaDon getHoaDon() { return hoaDon; }
+    public void setHoaDon(HoaDon hoaDon) { this.hoaDon = hoaDon; }
 }

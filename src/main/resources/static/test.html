@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Giao Diện Test Hệ Thống</title>
+    <style>
+        body { font-family: sans-serif; padding: 30px; background-color: #fafafa; }
+        .box { max-width: 500px; background: #fff; padding: 20px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        button { background: #007bff; color: #fff; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        button:hover { background: #0056b3; }
+        pre { background: #333; color: #fff; padding: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h3>Kiểm Tra Đồng Bộ Hóa Đơn & Combo</h3>
+    <p>Nhấp vào nút dưới đây để hệ thống tự động đóng gói dữ liệu và kích hoạt API POST:</p>
+    <button onclick="testHeThong()">Gửi Đơn Hàng Thử Nghiệm</button>
+    <p id="msg"></p>
+    <pre id="output">Kết quả hiển thị tại đây...</pre>
+</div>
+<script>
+function testHeThong() {
+    document.getElementById('msg').innerText = "Đang truyền dữ liệu...";
+    fetch('http://localhost:8081/api/hoadon/thanhtoan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            "phuongThucTT": "TIEN_MAT",
+            "chiTiet": [{
+                "id": "MG_CB3_GOC",
+                "size": null,
+                "soLuong": 1,
+                "tuyChinhCombo": [{
+                    "maSlot": "SLOT_DRINK",
+                    "maGiaSauDoi": "MG_PEPSI_LON",
+                    "phiPhuThuThucTe": 7000.00,
+                    "maTuyChinh": 1
+                }]
+            }]
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('msg').innerText = "Kết nối thành công!";
+        document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+    })
+    .catch(err => {
+        document.getElementById('msg').innerText = "Thất bại!";
+        document.getElementById('output').innerText = err;
+    });
+}
+</script>
+</body>
+</html>

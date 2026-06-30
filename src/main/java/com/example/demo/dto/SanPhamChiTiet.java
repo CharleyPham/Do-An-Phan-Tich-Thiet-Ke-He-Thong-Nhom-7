@@ -6,4 +6,6 @@ public interface SanPhamChiTiet {
     String getMaDanhMuc();
     String getMaSize();
     Double getGia();
+    Boolean getIsCombo();
+
 }

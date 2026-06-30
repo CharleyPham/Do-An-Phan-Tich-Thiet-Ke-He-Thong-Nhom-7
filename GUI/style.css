@@ -326,6 +326,10 @@ body {
   border-radius: 24px;
   width: 360px;
   max-width: 92vw;
+  /* 🛠️ BỔ SUNG: Khống chế chiều cao tối đa không để tràn màn hình */
+  max-height: 85vh; 
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   box-shadow: 0 24px 80px rgba(0,0,0,0.25);
   transform: scale(0.88) translateY(30px);
@@ -346,16 +350,24 @@ body {
   justify-content: center;
   font-size: 80px;
   overflow: hidden;
+  /* 🛠️ BỔ SUNG: Chặn mọi hành vi absolute láo của thẻ con nếu có */
+  position: relative; 
+  flex-shrink: 0; /* Không cho bức ảnh bị bóp méo khi nội dung bên dưới nhiều */
 }
 
 .popup-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* 🛠️ BỔ SUNG: Ép ảnh tuân thủ layout khối natural */
+  position: static !important; 
 }
 
 .popup-body {
   padding: 20px;
+  /* 🛠️ BỔ SUNG: Tạo vùng cuộn độc lập cho nội dung chữ và ô chọn combo */
+  overflow-y: auto; 
+  flex: 1; 
 }
 
 .popup-ten {
@@ -461,9 +473,13 @@ body {
 
 /* Nút popup */
 .popup-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #f3f4f6;
+  background: var(--trang);
   display: flex;
-  gap: 10px;
-  padding: 0 20px 20px;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .btn-thoat {

@@ -126,14 +126,29 @@ const Cart = {
   getAll() {
     return JSON.parse(localStorage.getItem("cart") || "[]");
   },
+  
   save(items) {
     localStorage.setItem("cart", JSON.stringify(items));
   },
+  
   add(item) {
     const items = this.getAll();
-    // Kiểm tra trùng: cùng id + cùng size
-    const key = item.id + (item.size || "");
-    const existed = items.find(i => (i.id + (i.size || "")) === key);
+    
+    // Thuật toán kiểm tra trùng nâng cao:
+    // Một món được coi là giống hệt nhau khi: Trùng mã sản phẩm (id) + Trùng kích cỡ (size) 
+    // + Trùng khớp hoàn toàn chuỗi danh sách các món chọn đi kèm (đối với Combo)
+    const existed = items.find(i => {
+      const trungId = i.id === item.id;
+      const trungSize = (i.size || "") === (item.size || "");
+      
+      // So sánh mảng món đi kèm (Đổi mảng thành chuỗi chữ để so sánh)
+      const chuoiMonKemGoc = (i.monKem || []).join(",");
+      const chuoiMonKemMoi = (item.monKem || []).join(",");
+      const trungMonKem = chuoiMonKemGoc === chuoiMonKemMoi;
+
+      return trungId && trungSize && trungMonKem;
+    });
+
     if (existed) {
       existed.soLuong += item.soLuong;
     } else {
@@ -141,28 +156,32 @@ const Cart = {
     }
     this.save(items);
   },
+  
   remove(index) {
     const items = this.getAll();
     items.splice(index, 1);
     this.save(items);
   },
+  
   clear() {
     localStorage.removeItem("cart");
   },
+  
   tinhTong() {
     return this.getAll().reduce((sum, i) => sum + (i.gia || 0) * (i.soLuong || 1), 0);
   },
+  
   soLuong() {
     return this.getAll().reduce((sum, i) => sum + (i.soLuong || 1), 0);
   }
 };
 
-// Format tiền VNĐ
+// Format số thành định dạng tiền tệ Việt Nam (Ví dụ: 50.000đ)
 function formatTien(so) {
   return so.toLocaleString("vi-VN") + "đ";
 }
 
-// Tạo mã đơn hàng
+// Tạo mã số hóa đơn tự động phục vụ Kiosk thanh toán
 function taoMaDon() {
   const now = new Date();
   const dateStr = now.toISOString().slice(0,10).replace(/-/g,"");
